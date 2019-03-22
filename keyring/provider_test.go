@@ -9,8 +9,8 @@ import (
 )
 
 func TestProvider(t *testing.T) {
-    RegisterFailHandler(Fail)
-    RunSpecs(t, "Provider Suite")
+	RegisterFailHandler(Fail)
+	RunSpecs(t, "Provider Suite")
 }
 
 var _ = Describe("Provider", func() {
@@ -24,7 +24,7 @@ var _ = Describe("Provider", func() {
 
 		Context("with default configuration", func() {
 			It("should succeed", func() {
-					err := Provider()
+				err := Provider()
 				Expect(err).ShouldNot(BeNil())
 			})
 		})

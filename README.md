@@ -10,3 +10,15 @@ A terraform provider for leveraging GPG or system keyrings.
 go get
 go build
 ```
+
+
+## Adding secrets
+
+### Ubuntu
+
+```sh
+sudo apt-get install -y libsecret-tools
+secret-tool store --label='terraformtest' id some-uuid
+```
+
+...enter your secret and then open up Seahors ("Passwords and Keys") and search the Login keychain for 'terraform'.

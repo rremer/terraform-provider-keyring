@@ -10,6 +10,8 @@ func Provider() terraform.ResourceProvider {
 		DataSourcesMap: map[string]*schema.Resource{
 			"keyring_secret": dataSourceKeyringSecret(),
 		},
-		ResourcesMap: map[string]*schema.Resource{},
+		ResourcesMap: map[string]*schema.Resource{
+			"keyring_secret": resourceKeyringSecret(),
+		},
 	}
 }

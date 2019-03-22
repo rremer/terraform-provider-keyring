@@ -2,13 +2,11 @@ package keyring
 
 import (
 	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/zalando/go-keyring"
-	"log"
 )
 
 func dataSourceKeyringSecret() *schema.Resource {
 	return &schema.Resource{
-		Read: dataSourceKeyringSecretRead,
+		Read: resourceKeyringSecretRead,
 		Schema: map[string]*schema.Schema{
 			"keyring": {
 				Type:     schema.TypeString,
@@ -16,36 +14,21 @@ func dataSourceKeyringSecret() *schema.Resource {
 			},
 			"service": {
 				Type:         schema.TypeString,
-				Default:      "terraform",
+				Default:      defaultService,
 				Optional:     true,
 				ValidateFunc: validateKeyringService,
 			},
-			"entry": {
+			"username": {
 				Type:         schema.TypeString,
-				Required:     true,
+				Default:      defaultUsername,
+				Optional:     true,
 				ValidateFunc: validateKeyringEntry,
 			},
-			"value": {
-				Type:     schema.TypeString,
-				Computed: true,
+			"secret": {
+				Type:      schema.TypeString,
+				Computed:  true,
+				Sensitive: true,
 			},
 		},
 	}
-}
-
-func dataSourceKeyringSecretRead(d *schema.ResourceData, meta interface{}) error {
-
-	service := d.Get("service").(string)
-	entry := d.Get("entry").(string)
-	keyringId := "login"
-	log.Printf("[DEBUG] Fetching value from keyring path %s/%s/%s", keyringId, service, entry)
-
-	value, err := keyring.Get(service, entry)
-	if err != nil {
-		return err
-	}
-	d.Set("value", value)
-	d.Set("keyring", keyringId)
-	//d.SetId(hash)
-	return nil
 }
