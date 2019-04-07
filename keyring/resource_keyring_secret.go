@@ -1,9 +1,10 @@
 package keyring
 
 import (
+	"errors"
+	"fmt"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/zalando/go-keyring"
-	"log"
 )
 
 const (
@@ -52,11 +53,9 @@ func resourceKeyringSecretCreate(d *schema.ResourceData, m interface{}) error {
 	keyringId := defaultKeyringId
 	secret := d.Get("secret").(string)
 
-	log.Printf("[DEBUG] Setting secret for keyring path %s/%s/%s", keyringId, service, username)
 	err := keyring.Set(service, username, secret)
 	if err != nil {
-		log.Printf("[ERROR] Failed to set secret for keyring path %s/%s/%s", keyringId, service, username)
-		return err
+		return errors.New(fmt.Sprintf("[ERROR] Failed to set secret for keyring path %s/%s/%s", keyringId, service, username))
 	}
 	return resourceKeyringSecretRead(d, m)
 }
@@ -67,12 +66,10 @@ func resourceKeyringSecretRead(d *schema.ResourceData, m interface{}) error {
 	service := d.Get("service").(string)
 	username := d.Get("username").(string)
 	keyringId := defaultKeyringId
-	log.Printf("[DEBUG] Fetching secret from keyring path %s/%s/%s", keyringId, service, username)
 
 	secret, err := keyring.Get(service, username)
 	if err != nil {
-		log.Printf("[ERROR] Failed to fetch secret from keyring path %s/%s/%s", keyringId, service, username)
-		return err
+		return errors.New(fmt.Sprintf("[ERROR] Failed to fetch secret from keyring path %s/%s/%s", keyringId, service, username))
 	}
 	d.Set("secret", secret)
 	d.Set("keyring", keyringId)
@@ -89,10 +86,9 @@ func resourceKeyringSecretDelete(d *schema.ResourceData, m interface{}) error {
 	username := d.Get("username").(string)
 	keyringId := defaultKeyringId
 
-	log.Printf("[DEBUG] Deleting secret at keyring path %s/%s/%s", keyringId, service, username)
 	err := keyring.Delete(service, username)
 	if err != nil {
-		log.Printf("[ERROR] Failed to delete secret at keyring path %s/%s/%s", keyringId, service, username)
+		return errors.New(fmt.Sprintf("[ERROR] Failed to delete secret at keyring path %s/%s/%s", keyringId, service, username))
 		return err
 	}
 	return nil

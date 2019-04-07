@@ -2,11 +2,15 @@ package keyring_test
 
 import (
 	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform/terraform"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	. "github.com/rremer/terraform-provider-keyring/keyring"
 	"testing"
 )
+
+var testAccProviders map[string]terraform.ResourceProvider
+var testAccProvider *schema.Provider
 
 func TestProvider(t *testing.T) {
 	RegisterFailHandler(Fail)
