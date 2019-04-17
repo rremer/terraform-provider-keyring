@@ -3,6 +3,8 @@ package keyring
 import (
 	"errors"
 	"fmt"
+
+	"github.com/hashicorp/go-uuid"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/zalando/go-keyring"
 )
@@ -57,10 +59,12 @@ func resourceKeyringSecretCreate(d *schema.ResourceData, m interface{}) error {
 	if err != nil {
 		return errors.New(fmt.Sprintf("[ERROR] Failed to set secret for keyring path %s/%s/%s", keyringId, service, username))
 	}
+	id, _ := uuid.GenerateUUID()
+	d.SetId(id)
+
 	return resourceKeyringSecretRead(d, m)
 }
 
-//TODO(rremer) set
 func resourceKeyringSecretRead(d *schema.ResourceData, m interface{}) error {
 
 	service := d.Get("service").(string)
@@ -71,9 +75,12 @@ func resourceKeyringSecretRead(d *schema.ResourceData, m interface{}) error {
 	if err != nil {
 		return errors.New(fmt.Sprintf("[ERROR] Failed to fetch secret from keyring path %s/%s/%s", keyringId, service, username))
 	}
+	if d.Get("secret") != secret {
+		id, _ := uuid.GenerateUUID()
+		d.SetId(id)
+	}
 	d.Set("secret", secret)
-	d.Set("keyring", keyringId)
-	d.SetId(keyringId + service + username)
+
 	return nil
 }
 
@@ -89,7 +96,6 @@ func resourceKeyringSecretDelete(d *schema.ResourceData, m interface{}) error {
 	err := keyring.Delete(service, username)
 	if err != nil {
 		return errors.New(fmt.Sprintf("[ERROR] Failed to delete secret at keyring path %s/%s/%s", keyringId, service, username))
-		return err
 	}
 	return nil
 }

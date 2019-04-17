@@ -1,6 +1,9 @@
 package keyring_test
 
 import (
+	"fmt"
+	"testing"
+
 	"github.com/hashicorp/terraform/helper/schema"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -18,7 +21,7 @@ var _ = Describe("data.keyring_secret", func() {
 
 		Context("with default configuration", func() {
 			It("should succeed", func() {
-					err := Provider()
+				err := Provider()
 				Expect(err).ShouldNot(BeNil())
 			})
 		})
@@ -26,7 +29,7 @@ var _ = Describe("data.keyring_secret", func() {
 })
 
 func testAcceptanceDatasourceKeyringSecretConfig(resourceId, datasourceId string) string {
-        return fmt.Sprintf(`
+	return fmt.Sprintf(`
 resource "keyring_secret" "%s" {
         entry = "terraform-acceptance-test"
         value = "Keyring provider acceptance test secret"
@@ -35,26 +38,28 @@ resource "keyring_secret" "%s" {
 data "keyring_secret" "%s" {
         entry = "${keyring_secret.%s.resourceId}"
 }
+`)
+}
 
 func TestAccDataSourceComputeAddress(t *testing.T) {
-        t.Parallel()
+	t.Parallel()
 
-        rsName := "foobar"
-        rsFullName := fmt.Sprintf("google_compute_address.%s", rsName)
-        dsName := "my_address"
-        dsFullName := fmt.Sprintf("data.google_compute_address.%s", dsName)
+	rsName := "foobar"
+	rsFullName := fmt.Sprintf("google_compute_address.%s", rsName)
+	dsName := "my_address"
+	dsFullName := fmt.Sprintf("data.google_compute_address.%s", dsName)
 
-        resource.Test(t, resource.TestCase{
-                PreCheck:     func() { testAccPreCheck(t) },
-                Providers:    testAccProviders,
-                CheckDestroy: testAccCheckDataSourceComputeAddressDestroy(rsFullName),
-                Steps: []resource.TestStep{
-                        {
-                                Config: testAccDataSourceComputeAddressConfig(rsName, dsName),
-                                Check: resource.ComposeTestCheckFunc(
-                                        testAccDataSourceComputeAddressCheck(dsFullName, rsFullName),
-                                ),
-                        },
-                },
-        })
+	resource.Test(t, resource.TestCase{
+		PreCheck:     func() { testAccPreCheck(t) },
+		Providers:    testAccProviders,
+		CheckDestroy: testAccCheckDataSourceComputeAddressDestroy(rsFullName),
+		Steps: []resource.TestStep{
+			{
+				Config: testAccDataSourceComputeAddressConfig(rsName, dsName),
+				Check: resource.ComposeTestCheckFunc(
+					testAccDataSourceComputeAddressCheck(dsFullName, rsFullName),
+				),
+			},
+		},
+	})
 }
