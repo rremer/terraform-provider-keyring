@@ -1,8 +1,7 @@
 language: go
 go:
-- "1.11.x"
+- "1.12.x"
 env:
   - TF_ACC=true
   - GO111MODULE=on
-script: go test -v -mod=vendor ./...
-install: true
+script: go test -v ./...
