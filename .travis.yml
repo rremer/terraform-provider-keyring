@@ -3,7 +3,7 @@ os:
   - linux
 language: go
 go:
-- "1.12.x"
+- "1.12.1"
 env:
   - GO111MODULE=on TF_ACC=true
 script: go test -v ./...
