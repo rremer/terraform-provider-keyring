@@ -14,12 +14,12 @@ func keyringSecretCommonSchema() map[string]*schema.Schema {
 			Type:         schema.TypeString,
 			Default:      defaultService,
 			Optional:     true,
-			ValidateFunc: validateKeyringService,
+			ValidateFunc: ValidateKeyringService,
 		},
 		"name": {
 			Type:         schema.TypeString,
 			Required:     true,
-			ValidateFunc: validateKeyringEntry,
+			ValidateFunc: ValidateKeyringEntry,
 		},
 	}
 }

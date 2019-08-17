@@ -13,8 +13,8 @@ type regex struct {
 }
 
 var (
-	keyringServiceRegex regex = regex{"^[a-zA-Z][a-zA-Z0-9]{1,254}$", "be between 1 and 254 characters, start with a letter, and contain letters and numbers"}
-	keyringEntryRegex   regex = regex{"^[a-zA-Z][a-zA-Z0-9]{1,254}$", "be between 1 and 254 characters, start with a letter, and contain letters and numbers"}
+	keyringServiceRegex regex = regex{"^[a-zA-Z][a-zA-Z0-9]{0,254}$", "be between 1 and 254 characters, start with a letter, and contain letters and numbers"}
+	keyringEntryRegex   regex = regex{"^[a-zA-Z][a-zA-Z0-9]{0,254}$", "be between 1 and 254 characters, start with a letter, and contain letters and numbers"}
 )
 
 func validateRegex(re regex) schema.SchemaValidateFunc {
@@ -28,10 +28,10 @@ func validateRegex(re regex) schema.SchemaValidateFunc {
 	}
 }
 
-func validateKeyringEntry(v interface{}, k string) (ws []string, errors []error) {
+func ValidateKeyringEntry(v interface{}, k string) (ws []string, errors []error) {
 	return validateRegex(keyringEntryRegex)(v, k)
 }
 
-func validateKeyringService(v interface{}, k string) (ws []string, errors []error) {
+func ValidateKeyringService(v interface{}, k string) (ws []string, errors []error) {
 	return validateRegex(keyringServiceRegex)(v, k)
 }
