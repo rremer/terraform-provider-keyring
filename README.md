@@ -6,6 +6,27 @@ A terraform provider for leveraging local keyrings on all operating systems.
 
 ## Installing
 
+### Building
+```sh
+go get
+go build
+```
+
+### Installing
+
+Examples below, but please reference the official [Terraform Plugin Discovery] documentation.
+
+### Linux / OSX
+
+```
+cp terraform-provider-keyring ~/.terraform.d/plugins/
+```
+#### Windows
+
+```
+copy terraform-provider-keyring %APPDATA%\terraform.d\plugins\
+```
+
 ## Usage
 
 ### Hashicorp Vault
@@ -96,6 +117,6 @@ go get
 go build
 ```
 
-
+[Terraform Plugin Discover]:https://www.terraform.io/docs/extend/how-terraform-works.html#discovery
 [Hashicorp Vault]:https://www.terraform.io/docs/providers/vault/index.html
 [GNOME Keyring]:https://wiki.gnome.org/Projects/GnomeKeyring
