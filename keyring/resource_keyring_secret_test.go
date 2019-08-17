@@ -7,7 +7,7 @@ import (
 	"github.com/hashicorp/terraform/helper/resource"
 )
 
-func testAcceptanceDatasourceKeyringSecretConfig(secret string) string {
+func testAccDatasourceKeyringSecretConfig(secret string) string {
 	return fmt.Sprintf(`
 resource "keyring_secret" "test" {
         name   = "test"
@@ -20,12 +20,12 @@ data "keyring_secret" "test" {
 `, secret)
 }
 
-func TestKeying_Resource(t *testing.T) {
+func TestAccKeying_Resource(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		Providers: testProviders,
 		Steps: []resource.TestStep{
 			{
-				Config: testAcceptanceDatasourceKeyringSecretConfig("expectedSecret"),
+				Config: testAccDatasourceKeyringSecretConfig("expectedSecret"),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr("keyring_secret.test", "name", "test"),
 					resource.TestCheckResourceAttr("keyring_secret.test", "secret", "expectedSecret"),
