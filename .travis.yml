@@ -3,10 +3,10 @@ os:
   - linux
 language: go
 go:
-- "1.12.1"
+- "1.12.x"
 env:
   - GO111MODULE=on TF_ACC=true
 script: go test -v ./...
 addons:
   apt:
-    packages: libsecret-tools
+    packages: gnome-keyring libsecret-tools
