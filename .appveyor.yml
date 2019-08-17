@@ -1,0 +1,13 @@
+version: "{build}"
+clone_folder: c:\workspace\src\github.com\rremer\terraform-provider-keyring
+environment:
+  GOPATH: c:\workspace
+  GO111MODULE: on
+  TF_ACC: true
+install:
+  - go version
+  - go get -t -v ./...
+build_script:
+  - go build
+test_script:
+  - go test -v
