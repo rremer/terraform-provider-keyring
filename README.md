@@ -1,6 +1,6 @@
 # terraform-provider-keyring
 
-![Travis (.org)](https://img.shields.io/travis/rremer/terraform-provider-keyring?label=linux%2Fosx) ![AppVeyor](https://img.shields.io/appveyor/ci/rremer/terraform-provider-keyring?label=windows)
+[![Travis](https://img.shields.io/travis/rremer/terraform-provider-keyring?label=linux%2Fosx)](https://travis-ci.org/rremer/terraform-provider-keyring) [![AppVeyor](https://img.shields.io/appveyor/ci/rremer/terraform-provider-keyring?label=windows)](https://ci.appveyor.com/project/rremer/terraform-provider-keyring)
 
 A terraform provider for leveraging local keyrings on all operating systems.
 
