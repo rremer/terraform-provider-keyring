@@ -12,7 +12,6 @@ import (
 const (
 	defaultKeyringId = "Login"
 	defaultService   = "terraform"
-	defaultUsername  = "terraform"
 )
 
 func resourceKeyringSecret() *schema.Resource {
@@ -35,10 +34,9 @@ func resourceKeyringSecret() *schema.Resource {
 				Optional:     true,
 				ValidateFunc: validateKeyringService,
 			},
-			"username": {
+			"name": {
 				Type:         schema.TypeString,
-				Default:      defaultUsername,
-				Optional:     true,
+				Required:     true,
 				ValidateFunc: validateKeyringEntry,
 			},
 			"secret": {
@@ -51,13 +49,13 @@ func resourceKeyringSecret() *schema.Resource {
 }
 func resourceKeyringSecretCreate(d *schema.ResourceData, m interface{}) error {
 	service := d.Get("service").(string)
-	username := d.Get("username").(string)
+	name := d.Get("name").(string)
 	keyringId := defaultKeyringId
 	secret := d.Get("secret").(string)
 
-	err := keyring.Set(service, username, secret)
+	err := keyring.Set(service, name, secret)
 	if err != nil {
-		return errors.New(fmt.Sprintf("[ERROR] Failed to set secret for keyring path %s/%s/%s", keyringId, service, username))
+		return errors.New(fmt.Sprintf("[ERROR] Failed to set secret for keyring path %s/%s/%s", keyringId, service, name))
 	}
 	id, _ := uuid.GenerateUUID()
 	d.SetId(id)
@@ -68,12 +66,12 @@ func resourceKeyringSecretCreate(d *schema.ResourceData, m interface{}) error {
 func resourceKeyringSecretRead(d *schema.ResourceData, m interface{}) error {
 
 	service := d.Get("service").(string)
-	username := d.Get("username").(string)
+	name := d.Get("name").(string)
 	keyringId := defaultKeyringId
 
-	secret, err := keyring.Get(service, username)
+	secret, err := keyring.Get(service, name)
 	if err != nil {
-		return errors.New(fmt.Sprintf("[ERROR] Failed to fetch secret from keyring path %s/%s/%s", keyringId, service, username))
+		return errors.New(fmt.Sprintf("[ERROR] Failed to fetch secret from keyring path %s/%s/%s", keyringId, service, name))
 	}
 	if d.Get("secret") != secret {
 		id, _ := uuid.GenerateUUID()
@@ -90,12 +88,12 @@ func resourceKeyringSecretUpdate(d *schema.ResourceData, m interface{}) error {
 
 func resourceKeyringSecretDelete(d *schema.ResourceData, m interface{}) error {
 	service := d.Get("service").(string)
-	username := d.Get("username").(string)
+	name := d.Get("name").(string)
 	keyringId := defaultKeyringId
 
-	err := keyring.Delete(service, username)
+	err := keyring.Delete(service, name)
 	if err != nil {
-		return errors.New(fmt.Sprintf("[ERROR] Failed to delete secret at keyring path %s/%s/%s", keyringId, service, username))
+		return errors.New(fmt.Sprintf("[ERROR] Failed to delete secret at keyring path %s/%s/%s", keyringId, service, name))
 	}
 	return nil
 }

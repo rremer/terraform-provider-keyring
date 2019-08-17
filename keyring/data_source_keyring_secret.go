@@ -18,10 +18,9 @@ func dataSourceKeyringSecret() *schema.Resource {
 				Optional:     true,
 				ValidateFunc: validateKeyringService,
 			},
-			"username": {
+			"name": {
 				Type:         schema.TypeString,
-				Default:      defaultUsername,
-				Optional:     true,
+				Required:     true,
 				ValidateFunc: validateKeyringEntry,
 			},
 			"secret": {
