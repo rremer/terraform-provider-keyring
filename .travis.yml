@@ -4,5 +4,5 @@ go:
 env:
   - TF_ACC=true
   - GO111MODULE=on
-gobuild_args: -v -mod=vendor
+script: go test -v -mod=vendor ./...
 install: true
