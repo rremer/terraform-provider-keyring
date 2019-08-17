@@ -21,4 +21,4 @@ sudo apt-get install -y libsecret-tools
 secret-tool store --label='terraformtest' id some-uuid
 ```
 
-...enter your secret and then open up Seahors ("Passwords and Keys") and search the Login keychain for 'terraform'.
+...enter your secret and then open up Seahorse ("Passwords and Keys") and search the Login keychain for 'terraform'.
