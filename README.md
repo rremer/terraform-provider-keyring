@@ -4,24 +4,22 @@
 
 A terraform provider for leveraging local keyrings on all operating systems.
 
-## Installing
+## Installation
 
-### Building
 ```sh
 go get
 go build
 ```
 
-### Installing
+OS-specific installation examples below, but please reference the official [Terraform Plugin Discovery] documentation.
 
-Examples below, but please reference the official [Terraform Plugin Discovery] documentation.
-
-### Linux / OSX
+Linux / OSX:
 
 ```
 cp terraform-provider-keyring ~/.terraform.d/plugins/
 ```
-#### Windows
+
+Windows:
 
 ```
 copy terraform-provider-keyring %APPDATA%\terraform.d\plugins\
@@ -110,13 +108,6 @@ cmdkey /generic terraform /user example /pass <YOUR_PRIVATE_KEY>
 ... note that ```/generic terraform``` defines the domain, which is a constant in the terraform provider for consistency with other OS implementations which don't support this construct. ```/user``` can be whatever you want and must match ```data.keyring_secret.example.name```.
 
 
-## Building
-
-```sh
-go get
-go build
-```
-
-[Terraform Plugin Discover]:https://www.terraform.io/docs/extend/how-terraform-works.html#discovery
+[Terraform Plugin Discovery]:https://www.terraform.io/docs/extend/how-terraform-works.html#discovery
 [Hashicorp Vault]:https://www.terraform.io/docs/providers/vault/index.html
 [GNOME Keyring]:https://wiki.gnome.org/Projects/GnomeKeyring
