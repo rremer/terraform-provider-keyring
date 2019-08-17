@@ -15,6 +15,14 @@ const (
 )
 
 func resourceKeyringSecret() *schema.Resource {
+	s := keyringSecretCommonSchema()
+
+	s["secret"] = &schema.Schema{
+		Type:      schema.TypeString,
+		Required:  true,
+		Sensitive: true,
+	}
+
 	return &schema.Resource{
 		Create: resourceKeyringSecretCreate,
 		Read:   resourceKeyringSecretRead,
@@ -23,30 +31,10 @@ func resourceKeyringSecret() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: resourceKeyringSecretImport,
 		},
-		Schema: map[string]*schema.Schema{
-			"keyring": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"service": {
-				Type:         schema.TypeString,
-				Default:      defaultService,
-				Optional:     true,
-				ValidateFunc: validateKeyringService,
-			},
-			"name": {
-				Type:         schema.TypeString,
-				Required:     true,
-				ValidateFunc: validateKeyringEntry,
-			},
-			"secret": {
-				Type:      schema.TypeString,
-				Required:  true,
-				Sensitive: true,
-			},
-		},
+		Schema: s,
 	}
 }
+
 func resourceKeyringSecretCreate(d *schema.ResourceData, m interface{}) error {
 	service := d.Get("service").(string)
 	name := d.Get("name").(string)

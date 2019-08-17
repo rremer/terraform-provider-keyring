@@ -4,30 +4,37 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-func dataSourceKeyringSecret() *schema.Resource {
-	return &schema.Resource{
-		Read: resourceKeyringSecretRead,
-		Schema: map[string]*schema.Schema{
-			"keyring": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"service": {
-				Type:         schema.TypeString,
-				Default:      defaultService,
-				Optional:     true,
-				ValidateFunc: validateKeyringService,
-			},
-			"name": {
-				Type:         schema.TypeString,
-				Required:     true,
-				ValidateFunc: validateKeyringEntry,
-			},
-			"secret": {
-				Type:      schema.TypeString,
-				Computed:  true,
-				Sensitive: true,
-			},
+func keyringSecretCommonSchema() map[string]*schema.Schema {
+	return map[string]*schema.Schema{
+		"keyring": {
+			Type:     schema.TypeString,
+			Computed: true,
 		},
+		"service": {
+			Type:         schema.TypeString,
+			Default:      defaultService,
+			Optional:     true,
+			ValidateFunc: validateKeyringService,
+		},
+		"name": {
+			Type:         schema.TypeString,
+			Required:     true,
+			ValidateFunc: validateKeyringEntry,
+		},
+	}
+}
+
+func dataSourceKeyringSecret() *schema.Resource {
+	s := keyringSecretCommonSchema()
+
+	s["secret"] = &schema.Schema{
+		Type:      schema.TypeString,
+		Computed:  true,
+		Sensitive: true,
+	}
+
+	return &schema.Resource{
+		Read:   resourceKeyringSecretRead,
+		Schema: s,
 	}
 }
