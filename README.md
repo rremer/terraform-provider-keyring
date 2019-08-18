@@ -85,9 +85,9 @@ Installation of secret-tool (or equivelant GUIs like Seahorse) varies, but the m
 Ubuntu:
 ```sh
 sudo apt-get install -y libsecret-tools
-secret-tool store --label='example' id example
+secret-tool store --label=terraform id example
 ```
-... when prompted, paste in your private key.
+... when prompted, paste in your private key. ```--label terraform``` defines the service label, which is an optional field ```service``` in the terraform provider. ```id example``` can be whatever you want and must match the ```name```field in your terraform declaration.
 
 #### OSX Keychain
 
@@ -96,7 +96,7 @@ OSX Keychain, leveraging the Login keychain (currently not configurable). Not in
 ```sh
 security add-generic-password -U -s terraform -a example -w <YOUR_PRIVATE_KEY>
 ```
-... note that ```-s terraform``` defines the service label, which is a constant in the terraform provider for consistency with other OS implementations which don't support this construct. ```-a``` can be whatever you want and must match ``data.keyring_secret.example.name```.
+... note that ```-s terraform``` defines the service label, which is an optional field ```service``` in the terraform provider. ```-a``` can be whatever you want and must match the ```name```field in your terraform declaration.
 
 #### Windows Credential Manager
 
@@ -105,7 +105,7 @@ Since XP, Windows has shipped with a CLI and GUI for Windows Credential Manager.
 ```sh
 cmdkey /generic terraform /user example /pass <YOUR_PRIVATE_KEY>
 ```
-... note that ```/generic terraform``` defines the domain, which is a constant in the terraform provider for consistency with other OS implementations which don't support this construct. ```/user``` can be whatever you want and must match ```data.keyring_secret.example.name```.
+... note that ```/generic terraform``` defines the domain, which is an optional field ```service``` in the terraform provider. ```/user``` can be whatever you want and must match the ```name``` field in your terraform declaration.
 
 
 [Terraform Plugin Discovery]:https://www.terraform.io/docs/extend/how-terraform-works.html#discovery
